@@ -8,6 +8,8 @@
 package com.bt.betalab.callcentre.model;
 
 import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Random;
 
@@ -33,14 +35,14 @@ public class Worker {
     }
 
     public void Handle(Call call) throws InterruptedException {
-        call.setPickupTime(new Timestamp((new Date()).getTime()));
+        call.setPickupTime(Instant.now());
 
         Random rand = new Random();
 
-        if (call.getPickupTime().getTime() - call.getArrivalTime().getTime() < bounceWaitTime) {
-            call.setSolved(isSkilled ? rand.nextInt(100) > skilledFailureRate : rand.nextInt(100) > unSkilledFailureRate);
+        if (Long.valueOf(Duration.between(call.getArrivalTime(), call.getPickupTime()).getSeconds()).intValue() < bounceWaitTime) {
+            call.setIsSolved(isSkilled ? rand.nextInt(100) > skilledFailureRate : rand.nextInt(100) > unSkilledFailureRate);
             int sleepTime = normalServiceTime;
-            if (call.isEasy()) {
+            if (call.getIsEasy()) {
                 sleepTime = isSkilled ? sleepTime : sleepTime + rand.nextInt(2);
                 sleepTime = isFast ? sleepTime - rand.nextInt(1) : sleepTime ;
             } else {
@@ -49,9 +51,9 @@ public class Worker {
             }
             Thread.sleep(sleepTime * 1000);
         } else {
-            call.setBounced(true);
+            call.setIsBounced(true);
         }
 
-        call.setClosingTime(new Timestamp((new Date()).getTime()));
+        call.setClosingTime(Instant.now());
     }
 }

@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 
 public class Controller {
     private Worker worker = new Worker();
@@ -29,9 +29,9 @@ public class Controller {
         try {
             worker.Handle(call);
 
-            int waitTime = Long.valueOf(call.getPickupTime().getTime() - call.getArrivalTime().getTime()).intValue();
-            int serviceTime = Long.valueOf(call.getClosingTime().getTime() - call.getPickupTime().getTime()).intValue();
-            call.getCustomer().updateHappy(call.isSolved(), call.isBounced(), waitTime, serviceTime);
+            int waitTime = Long.valueOf(Duration.between(call.getArrivalTime(), call.getPickupTime()).getSeconds()).intValue();
+            int serviceTime = Long.valueOf(Duration.between(call.getPickupTime(), call.getClosingTime()).getSeconds()).intValue();
+            call.getCustomer().updateHappy(call.getIsSolved(), call.getIsBounced(), waitTime, serviceTime);
             call.setWorkerDetails(worker);
 
             URL url = new URL(Config.getReportUrl());
@@ -44,7 +44,7 @@ public class Controller {
             stream.write(mapper.writeValueAsBytes(call));
 
             if (http.getResponseCode() < 200 || http.getResponseCode() > 299) {
-                Logger.log("Error occured while attempting to store call result. Error Code: " + http.getResponseCode(), LogLevel.ERROR);
+                Logger.log("Error occurred while attempting to store call result. Error Code: " + http.getResponseCode(), LogLevel.ERROR);
             }
             http.disconnect();
 
