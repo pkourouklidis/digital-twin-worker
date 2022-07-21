@@ -27,6 +27,8 @@ public class Main {
         if (Config.isValid()) {
             Main main = new Main();
             main.run();
+        } else {
+            Logger.log(Messages.INVALIDCONFIGMESSAGE, LogLevel.ERROR);
         }
     }
 

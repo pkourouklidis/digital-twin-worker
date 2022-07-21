@@ -29,4 +29,6 @@ public class Messages {
 
         public static final String INVALIDERRORMESSAGE = "Invalid call message received: ";
 
+        public static final String INVALIDCONFIGMESSAGE = "Invalid configuration provided, exiting";
+
 }

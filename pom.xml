@@ -13,6 +13,45 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>active-by-default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <coverage.line>0.0</coverage.line>
+                <coverage.branch>0.0</coverage.branch>
+            </properties>
+        </profile>
+        <profile>
+            <id>master-branch</id>
+            <activation>
+                <property>
+                    <name>branch</name>
+                    <value>master</value>
+                </property>
+            </activation>
+            <properties>
+                <coverage.line>0.0</coverage.line>
+                <coverage.branch>0.0</coverage.branch>
+            </properties>
+        </profile>
+        <profile>
+            <id>release-branch</id>
+            <activation>
+                <property>
+                    <name>branch</name>
+                    <value>release</value>
+                </property>
+            </activation>
+            <properties>
+                <coverage.line>0.0</coverage.line>
+                <coverage.branch>0.0</coverage.branch>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
 
         <dependency>
@@ -28,4 +67,35 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <finalName>worker</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.bt.betalab.callcentre.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
