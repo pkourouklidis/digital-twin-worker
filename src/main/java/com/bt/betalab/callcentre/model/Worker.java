@@ -7,6 +7,8 @@
 
 package com.bt.betalab.callcentre.model;
 
+import com.bt.betalab.callcentre.config.Config;
+
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
@@ -22,8 +24,8 @@ public class Worker {
     public Worker() {
         Random rand = new Random();
 
-        isSkilled = rand.nextInt(100) > 66;
-        isFast = rand.nextInt(100) > 55;
+        isSkilled = rand.nextInt(100) < Config.getSkillBias();
+        isFast = rand.nextInt(100) < Config.getSpeedBias();
     }
 
     public boolean isSkilled() {
