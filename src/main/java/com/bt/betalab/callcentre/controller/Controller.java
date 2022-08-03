@@ -14,6 +14,7 @@ import com.bt.betalab.callcentre.logging.Messages;
 import com.bt.betalab.callcentre.model.Call;
 import com.bt.betalab.callcentre.model.Worker;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -26,6 +27,7 @@ public class Controller {
     private ObjectMapper mapper = new ObjectMapper();
 
     public boolean process(Call call) {
+        mapper.registerModule(new JavaTimeModule());
         try {
             worker.Handle(call);
 

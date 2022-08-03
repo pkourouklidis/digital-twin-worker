@@ -16,6 +16,7 @@ import com.bt.betalab.callcentre.model.Call;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.*;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -52,7 +53,7 @@ public class Main {
             Connection connection = conFactory.newConnection();
             Channel channel = connection.createChannel();
 
-            channel.queueDeclare(Config.getMessageQueueName(), false, false, false, null);
+            channel.queueDeclare(Config.getMessageQueueName(), true, false, false, null);
 
             Logger.log(Messages.CONNECTEDTOMESSAGEQUEUEMESSAGE, LogLevel.INFO);
 
@@ -99,6 +100,7 @@ public class Main {
      */
     public boolean handle(String input) {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         Call call = null;
         try {
             call = mapper.readValue(input, Call.class);

@@ -8,16 +8,12 @@
 package com.bt.betalab.callcentre.config;
 
 public class Config {
-    public static int normalWaitTime = 9;
-    public static int bounceWaitTime = 15;
-    public static int normalServiceTime = 3;
+//    public static int normalWaitTime = 9;
+//    public static int bounceWaitTime = 15;
+//    public static int normalServiceTime = 3;
 
     public static int skilledFailureRate = 25;
     public static int unSkilledFailureRate = 40;
-
-    public static int skillBias;
-
-    public static int speedBias;
 
     public static boolean isValid() {
         boolean hasAddress = System.getenv("QUEUE_ADDRESS") != null;
@@ -28,7 +24,10 @@ public class Config {
         boolean hasReportUrl = System.getenv("REPORT_URL") != null;
         boolean hasSkillBias = System.getenv("SKILL_BIAS") != null;
         boolean hasSpeedBias = System.getenv("SPEED_BIAS") != null;
-        return hasAddress && hasPort && hasUser && hasPassword && hasName && hasReportUrl && hasSkillBias && hasSpeedBias;
+        boolean hasNormalWaitTime = System.getenv("NORMAL_WAIT_TIME") != null;
+        boolean hasNormalServiceTime = System.getenv("NORMAL_SERVICE_TIME") != null;
+        boolean hasBounceWaitTime = System.getenv("BOUNCE_WAIT_TIME") != null;
+        return hasAddress && hasPort && hasUser && hasPassword && hasName && hasReportUrl && hasSkillBias && hasSpeedBias && hasNormalWaitTime && hasNormalServiceTime && hasBounceWaitTime;
     }
 
     public static String getMessageQueueAddress() {
@@ -68,6 +67,30 @@ public class Config {
             return Integer.parseInt(System.getenv("SPEED_BIAS"));
         } catch (NumberFormatException e) {
             return 50;
+        }
+    }
+
+    public static int getNormalWaitTime() {
+        try {
+            return Integer.parseInt(System.getenv("NORMAL_WAIT_TIME"));
+        } catch (NumberFormatException e) {
+            return 10;
+        }
+    }
+
+    public static int getNormalServiceTime() {
+        try {
+            return Integer.parseInt(System.getenv("NORMAL_SERVICE_TIME"));
+        } catch (NumberFormatException e) {
+            return 10;
+        }
+    }
+
+    public static int getBounceWaitTime() {
+        try {
+            return Integer.parseInt(System.getenv("BOUNCE_WAIT_TIME"));
+        } catch (NumberFormatException e) {
+            return 10;
         }
     }
 }

@@ -41,9 +41,9 @@ public class Worker {
 
         Random rand = new Random();
 
-        if (Long.valueOf(Duration.between(call.getArrivalTime(), call.getPickupTime()).getSeconds()).intValue() < bounceWaitTime) {
+        if (Long.valueOf(Duration.between(call.getArrivalTime(), call.getPickupTime()).getSeconds()).intValue() < Config.getBounceWaitTime()) {
             call.setIsSolved(isSkilled ? rand.nextInt(100) > skilledFailureRate : rand.nextInt(100) > unSkilledFailureRate);
-            int sleepTime = normalServiceTime;
+            int sleepTime = Config.getNormalServiceTime();
             if (call.getIsEasy()) {
                 sleepTime = isSkilled ? sleepTime : sleepTime + rand.nextInt(2);
                 sleepTime = isFast ? sleepTime - rand.nextInt(1) : sleepTime ;
