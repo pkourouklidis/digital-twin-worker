@@ -27,7 +27,9 @@ public class Config {
         boolean hasNormalWaitTime = System.getenv("NORMAL_WAIT_TIME") != null;
         boolean hasNormalServiceTime = System.getenv("NORMAL_SERVICE_TIME") != null;
         boolean hasBounceWaitTime = System.getenv("BOUNCE_WAIT_TIME") != null;
-        return hasAddress && hasPort && hasUser && hasPassword && hasName && hasReportUrl && hasSkillBias && hasSpeedBias && hasNormalWaitTime && hasNormalServiceTime && hasBounceWaitTime;
+        boolean hasReportUrlUser = System.getenv("REPORT_URL_USER") != null;
+        boolean hasReportUrlPassword =System.getenv("REPORT_URL_PASSWORD") != null;
+        return hasAddress && hasPort && hasUser && hasPassword && hasName && hasReportUrl && hasSkillBias && hasSpeedBias && hasNormalWaitTime && hasNormalServiceTime && hasBounceWaitTime && hasReportUrlUser && hasReportUrlPassword;
     }
 
     public static String getMessageQueueAddress() {
@@ -92,5 +94,13 @@ public class Config {
         } catch (NumberFormatException e) {
             return 10;
         }
+    }
+
+    public static String getReportUrlUser() {
+        return System.getenv("REPORT_URL_USER");
+    }
+
+    public static String getReportUrlPassword() {
+        return System.getenv("REPORT_URL_PASSWORD");
     }
 }

@@ -17,17 +17,32 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-public class Main {
-    Controller controller = new Controller();
+@SpringBootApplication
+public class Main implements CommandLineRunner {
 
-    public static void main( String[] args ) {
+    @Autowired
+    Controller controller;
+
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        start();
+    }
+
+    public void start() {
         if (Config.isValid()) {
-            Main main = new Main();
-            main.run();
+            startQueueConsumption();
         } else {
             Logger.log(Messages.INVALIDCONFIGMESSAGE, LogLevel.ERROR);
         }
@@ -38,7 +53,7 @@ public class Main {
      * server (push-based) and handles every message its get sent by calling
      * the handle method for processing.
      */
-    public void run() {
+    public void startQueueConsumption() {
         ConnectionFactory conFactory = new ConnectionFactory();
         conFactory.setHost(Config.getMessageQueueAddress());
         conFactory.setPort(Config.getMessageQueuePort());

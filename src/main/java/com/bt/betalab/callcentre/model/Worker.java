@@ -51,7 +51,8 @@ public class Worker {
                 sleepTime = isSkilled ? sleepTime + rand.nextInt(2): sleepTime + rand.nextInt(4);
                 sleepTime = isFast ? sleepTime : sleepTime + rand.nextInt(3);
             }
-            Thread.sleep(sleepTime * 1000);
+//            Thread.sleep(sleepTime * 1000);
+            Thread.sleep(1000);
         } else {
             call.setIsBounced(true);
         }

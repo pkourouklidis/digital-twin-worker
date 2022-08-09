@@ -15,12 +15,15 @@ import com.bt.betalab.callcentre.model.Call;
 import com.bt.betalab.callcentre.model.Worker;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.stereotype.Component;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Duration;
+import java.util.Base64;
 
+@Component
 public class Controller {
     private Worker worker = new Worker();
 
@@ -36,11 +39,14 @@ public class Controller {
             call.getCustomer().updateHappy(call.getIsSolved(), call.getIsBounced(), waitTime, serviceTime);
             call.setWorkerDetails(worker);
 
+            String encoding = Base64.getEncoder().encodeToString((Config.getReportUrlUser() + ":" + Config.getReportUrlPassword()).getBytes("UTF-8"));
+
             URL url = new URL(Config.getReportUrl());
             HttpURLConnection http = (HttpURLConnection)url.openConnection();
             http.setRequestMethod("PUT");
             http.setDoOutput(true);
             http.setRequestProperty("Content-Type", "application/json");
+            http.setRequestProperty("Authorization", "Basic " + encoding);
 
             OutputStream stream = http.getOutputStream();
             stream.write(mapper.writeValueAsBytes(call));
