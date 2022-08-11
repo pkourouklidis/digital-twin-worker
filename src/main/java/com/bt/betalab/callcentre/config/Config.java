@@ -22,13 +22,14 @@ public class Config {
         boolean hasPassword = System.getenv("QUEUE_PASSWORD") != null;
         boolean hasName = System.getenv("QUEUE_NAME") != null;
         boolean hasReportUrl = System.getenv("REPORT_URL") != null;
+        boolean hasReportUrlUser = System.getenv("REPORT_URL_USER") != null;
+        boolean hasReportUrlPassword =System.getenv("REPORT_URL_PASSWORD") != null;
         boolean hasSkillBias = System.getenv("SKILL_BIAS") != null;
         boolean hasSpeedBias = System.getenv("SPEED_BIAS") != null;
         boolean hasNormalWaitTime = System.getenv("NORMAL_WAIT_TIME") != null;
         boolean hasNormalServiceTime = System.getenv("NORMAL_SERVICE_TIME") != null;
         boolean hasBounceWaitTime = System.getenv("BOUNCE_WAIT_TIME") != null;
-        boolean hasReportUrlUser = System.getenv("REPORT_URL_USER") != null;
-        boolean hasReportUrlPassword =System.getenv("REPORT_URL_PASSWORD") != null;
+
         return hasAddress && hasPort && hasUser && hasPassword && hasName && hasReportUrl && hasSkillBias && hasSpeedBias && hasNormalWaitTime && hasNormalServiceTime && hasBounceWaitTime && hasReportUrlUser && hasReportUrlPassword;
     }
 

@@ -24,8 +24,8 @@ public class Worker {
     public Worker() {
         Random rand = new Random();
 
-        isSkilled = rand.nextInt(100) < Config.getSkillBias();
-        isFast = rand.nextInt(100) < Config.getSpeedBias();
+        isSkilled = rand.nextInt(100) > Config.getSkillBias();
+        isFast = rand.nextInt(100) > Config.getSpeedBias();
     }
 
     public boolean isSkilled() {
@@ -51,8 +51,7 @@ public class Worker {
                 sleepTime = isSkilled ? sleepTime + rand.nextInt(2): sleepTime + rand.nextInt(4);
                 sleepTime = isFast ? sleepTime : sleepTime + rand.nextInt(3);
             }
-//            Thread.sleep(sleepTime * 1000);
-            Thread.sleep(1000);
+            Thread.sleep(sleepTime * 1000);
         } else {
             call.setIsBounced(true);
         }
