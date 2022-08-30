@@ -17,6 +17,11 @@ public class Customer {
     private boolean isHappyToWait;
     private boolean isHappyToWaitForService;
     private boolean isUnderstanding;
+
+    public boolean getIsHappy() {
+        return isHappy;
+    }
+
     private boolean isHappy;
 
     public boolean getIsHappyToWait() {
@@ -56,13 +61,13 @@ public class Customer {
             }
         } else {
             if (isSolved) {
-                boolean isHappyWithWait =  isHappyToWait ? rand.nextInt(waitTime) > Config.getNormalWaitTime() + 5 : rand.nextInt(waitTime) > Config.getNormalWaitTime() + 2;
-                boolean isHappyWithWaitForService =  isHappyToWaitForService ? rand.nextInt(serviceTime) > Config.getNormalServiceTime() + 3 : rand.nextInt(serviceTime) > Config.getNormalServiceTime();
+                boolean isHappyWithWait =  isHappyToWait ? rand.nextInt(waitTime) < Config.getNormalWaitTime() + 5 : rand.nextInt(waitTime) < Config.getNormalWaitTime() + 2;
+                boolean isHappyWithWaitForService =  isHappyToWaitForService ? rand.nextInt(serviceTime) < Config.getNormalServiceTime() + 3 : rand.nextInt(serviceTime) < Config.getNormalServiceTime();
 
                 isHappy = isHappyWithWait && isHappyWithWaitForService;
             } else {
-                boolean isHappyWithWait =  isHappyToWait ? rand.nextInt(waitTime) > Config.getNormalWaitTime() : rand.nextInt(waitTime) > Config.getNormalWaitTime();
-                boolean isHappyWithWaitForService =  isHappyToWaitForService ? rand.nextInt(serviceTime) > Config.getNormalServiceTime() : rand.nextInt(serviceTime) > Config.getNormalServiceTime();
+                boolean isHappyWithWait =  isHappyToWait ? rand.nextInt(waitTime) < Config.getNormalWaitTime() : rand.nextInt(waitTime) < Config.getNormalWaitTime();
+                boolean isHappyWithWaitForService =  isHappyToWaitForService ? rand.nextInt(serviceTime) < Config.getNormalServiceTime() : rand.nextInt(serviceTime) < Config.getNormalServiceTime();
                 boolean isHappyWithOutcome = isUnderstanding ? rand.nextInt(100) > 80 : rand.nextInt(100) > 95;
 
                 isHappy = isHappyWithOutcome && isHappyWithWait && isHappyWithWaitForService;
