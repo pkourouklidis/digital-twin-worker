@@ -2,7 +2,7 @@ package com.bt.betalab.callcentre.model;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class CustomerTest {
 
@@ -12,8 +12,34 @@ public class CustomerTest {
         customer.setIsHappyToWaitForService(true);
         customer.setIsUnderstanding(true);
 
-        customer.updateHappy(true, false, 25, 15);
+        boolean thrown = false;
 
-        assertTrue(customer.getIsHappy() || !customer.getIsHappy());
+        try {
+            customer.updateHappy(true, false, 0, 15);
+        } catch (Exception e) {
+            thrown = true;
+        }
+        
+        assertFalse(thrown);
+
+        thrown = false;
+
+        try {
+            customer.updateHappy(true, false, 10, 0);
+        } catch (Exception e) {
+            thrown = true;
+        }
+        
+        assertFalse(thrown);
+
+        thrown = false;
+
+        try {
+            customer.updateHappy(true, false, 10, 15);
+        } catch (Exception e) {
+            thrown = true;
+        }
+        
+        assertFalse(thrown);
     }
 }

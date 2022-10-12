@@ -7,7 +7,7 @@
 
 package com.bt.betalab.callcentre.model;
 
-import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.Instant;
 
 public class Call {
@@ -102,5 +102,13 @@ public class Call {
 
     public void setWorkerDetails(Worker worker) {
         this.workerDetails = new WorkerDetails(worker.isSkilled(), worker.isFast());
+    }
+
+    public int getWaitTime() {
+        return Long.valueOf(Duration.between(this.getArrivalTime(), this.getPickupTime()).getSeconds()).intValue();
+    }
+
+    public int getServiceTime() {
+        return Long.valueOf(Duration.between(this.getPickupTime(), this.getClosingTime()).getSeconds()).intValue();
     }
 }

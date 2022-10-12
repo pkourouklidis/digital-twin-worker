@@ -9,10 +9,8 @@ package com.bt.betalab.callcentre.model;
 
 import com.bt.betalab.callcentre.config.Config;
 
-import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Date;
 import java.util.Random;
 
 import static com.bt.betalab.callcentre.config.Config.*;
@@ -36,7 +34,7 @@ public class Worker {
         return isFast;
     }
 
-    public void Handle(Call call) throws InterruptedException {
+    public void handle(Call call) throws InterruptedException {
         call.setPickupTime(Instant.now());
 
         Random rand = new Random();

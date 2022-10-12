@@ -11,8 +11,6 @@ import com.bt.betalab.callcentre.config.Config;
 
 import java.util.Random;
 
-import static com.bt.betalab.callcentre.config.Config.*;
-
 public class Customer {
     private boolean isHappyToWait;
     private boolean isHappyToWaitForService;
@@ -52,7 +50,10 @@ public class Customer {
         Random rand = new Random();
 
         if (isBounced) {
-            boolean isHappyWithWait =  isHappyToWait ? rand.nextInt(waitTime) > Config.getNormalWaitTime() + 2 : rand.nextInt(waitTime) > Config.getNormalWaitTime();
+            boolean isHappyWithWait =  isHappyToWait ? 
+                        (waitTime == 0 ? 0 : rand.nextInt(waitTime)) < Config.getNormalWaitTime() + 2 
+                        :
+                        (waitTime == 0 ? 0 : rand.nextInt(waitTime)) < Config.getNormalWaitTime();
 
             if (isHappyWithWait) {
                 isHappy = isUnderstanding ? rand.nextInt(100) > 90 : rand.nextInt(100) > 99;
@@ -61,14 +62,32 @@ public class Customer {
             }
         } else {
             if (isSolved) {
-                boolean isHappyWithWait =  isHappyToWait ? rand.nextInt(waitTime) < Config.getNormalWaitTime() + 5 : rand.nextInt(waitTime) < Config.getNormalWaitTime() + 2;
-                boolean isHappyWithWaitForService =  isHappyToWaitForService ? rand.nextInt(serviceTime) < Config.getNormalServiceTime() + 3 : rand.nextInt(serviceTime) < Config.getNormalServiceTime();
+                boolean isHappyWithWait =  isHappyToWait ? 
+                        (waitTime == 0 ? 0 : rand.nextInt(waitTime)) < Config.getNormalWaitTime() + 5
+                        :
+                        (waitTime == 0 ? 0 : rand.nextInt(waitTime)) < Config.getNormalWaitTime() + 2;
+
+                boolean isHappyWithWaitForService =  isHappyToWaitForService ?
+                        (serviceTime == 0 ? 0 : rand.nextInt(serviceTime)) < Config.getNormalServiceTime() + 3
+                        :
+                        (serviceTime == 0 ? 0 : rand.nextInt(serviceTime)) < Config.getNormalServiceTime();
 
                 isHappy = isHappyWithWait && isHappyWithWaitForService;
             } else {
-                boolean isHappyWithWait =  isHappyToWait ? rand.nextInt(waitTime) < Config.getNormalWaitTime() : rand.nextInt(waitTime) < Config.getNormalWaitTime();
-                boolean isHappyWithWaitForService =  isHappyToWaitForService ? rand.nextInt(serviceTime) < Config.getNormalServiceTime() : rand.nextInt(serviceTime) < Config.getNormalServiceTime();
-                boolean isHappyWithOutcome = isUnderstanding ? rand.nextInt(100) > 80 : rand.nextInt(100) > 95;
+                boolean isHappyWithWait =  isHappyToWait ? 
+                        (waitTime == 0 ? 0 : rand.nextInt(waitTime)) < Config.getNormalWaitTime() 
+                        : 
+                        (waitTime == 0 ? 0 : rand.nextInt(waitTime)) < Config.getNormalWaitTime();
+
+                boolean isHappyWithWaitForService =  isHappyToWaitForService ? 
+                        (serviceTime == 0 ? 0 : rand.nextInt(serviceTime)) < Config.getNormalServiceTime() 
+                        : 
+                        (serviceTime == 0 ? 0 : rand.nextInt(serviceTime)) < Config.getNormalServiceTime();
+
+                boolean isHappyWithOutcome = isUnderstanding ? 
+                        rand.nextInt(100) > 80 
+                        : 
+                        rand.nextInt(100) > 95;
 
                 isHappy = isHappyWithOutcome && isHappyWithWait && isHappyWithWaitForService;
             }

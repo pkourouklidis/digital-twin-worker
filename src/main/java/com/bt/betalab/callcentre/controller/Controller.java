@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.Duration;
 import java.util.Base64;
 
 @Component
@@ -32,11 +31,9 @@ public class Controller {
     public boolean process(Call call) {
         mapper.registerModule(new JavaTimeModule());
         try {
-            worker.Handle(call);
+            worker.handle(call);
 
-            int waitTime = Long.valueOf(Duration.between(call.getArrivalTime(), call.getPickupTime()).getSeconds()).intValue();
-            int serviceTime = Long.valueOf(Duration.between(call.getPickupTime(), call.getClosingTime()).getSeconds()).intValue();
-            call.getCustomer().updateHappy(call.getIsSolved(), call.getIsBounced(), waitTime, serviceTime);
+            call.getCustomer().updateHappy(call.getIsSolved(), call.getIsBounced(), call.getWaitTime(), call.getServiceTime());
             call.setWorkerDetails(worker);
 
             String encoding = Base64.getEncoder().encodeToString((Config.getReportUrlUser() + ":" + Config.getReportUrlPassword()).getBytes("UTF-8"));
