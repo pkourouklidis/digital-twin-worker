@@ -41,14 +41,11 @@ public class Worker {
 
         if (Long.valueOf(Duration.between(call.getArrivalTime(), call.getPickupTime()).getSeconds()).intValue() < Config.getBounceWaitTime()) {
             call.setIsSolved(isSkilled ? rand.nextInt(100) > skilledFailureRate : rand.nextInt(100) > unSkilledFailureRate);
-            int sleepTime = Config.getNormalServiceTime();
-            if (call.getIsEasy()) {
-                sleepTime = isSkilled ? sleepTime : sleepTime + rand.nextInt(2);
-                sleepTime = isFast ? sleepTime - rand.nextInt(1) : sleepTime ;
-            } else {
-                sleepTime = isSkilled ? sleepTime + rand.nextInt(2): sleepTime + rand.nextInt(4);
-                sleepTime = isFast ? sleepTime : sleepTime + rand.nextInt(3);
-            }
+            int mean = Config.getNormalServiceTime();
+            mean = call.getIsEasy() ? mean : mean + 1;
+            mean = isSkilled ? mean : mean + 1;
+            mean = isFast ? mean : mean + 1;
+            int sleepTime = (int) Math.round(rand.nextGaussian() + mean);
             Thread.sleep(sleepTime * 1000);
         } else {
             call.setIsBounced(true);

@@ -63,26 +63,26 @@ public class Customer {
         } else {
             if (isSolved) {
                 boolean isHappyWithWait =  isHappyToWait ? 
-                        (waitTime == 0 ? 0 : rand.nextInt(waitTime)) < Config.getNormalWaitTime() + 5
+                        (waitTime == 0 ? 0 : rand.nextInt(waitTime)) < 10
                         :
-                        (waitTime == 0 ? 0 : rand.nextInt(waitTime)) < Config.getNormalWaitTime() + 2;
+                        (waitTime == 0 ? 0 : rand.nextInt(waitTime)) < 3;
 
                 boolean isHappyWithWaitForService =  isHappyToWaitForService ?
-                        (serviceTime == 0 ? 0 : rand.nextInt(serviceTime)) < Config.getNormalServiceTime() + 3
+                        (serviceTime == 0 ? 0 : rand.nextInt(serviceTime)) < 10
                         :
-                        (serviceTime == 0 ? 0 : rand.nextInt(serviceTime)) < Config.getNormalServiceTime();
+                        (serviceTime == 0 ? 0 : rand.nextInt(serviceTime)) < 3;
 
                 isHappy = isHappyWithWait && isHappyWithWaitForService;
             } else {
                 boolean isHappyWithWait =  isHappyToWait ? 
-                        (waitTime == 0 ? 0 : rand.nextInt(waitTime)) < Config.getNormalWaitTime() 
+                        (waitTime == 0 ? 0 : rand.nextInt(waitTime)) < 10 
                         : 
-                        (waitTime == 0 ? 0 : rand.nextInt(waitTime)) < Config.getNormalWaitTime();
+                        (waitTime == 0 ? 0 : rand.nextInt(waitTime)) < 3;
 
                 boolean isHappyWithWaitForService =  isHappyToWaitForService ? 
-                        (serviceTime == 0 ? 0 : rand.nextInt(serviceTime)) < Config.getNormalServiceTime() 
+                        (serviceTime == 0 ? 0 : rand.nextInt(serviceTime)) < 10
                         : 
-                        (serviceTime == 0 ? 0 : rand.nextInt(serviceTime)) < Config.getNormalServiceTime();
+                        (serviceTime == 0 ? 0 : rand.nextInt(serviceTime)) < 3;
 
                 boolean isHappyWithOutcome = isUnderstanding ? 
                         rand.nextInt(100) > 80 
